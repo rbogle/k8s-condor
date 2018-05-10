@@ -3,7 +3,7 @@
 ### Preparing the pool password
 We will use a pool password (i.e. shared secret) to secure the HTCondor cluster. Create a random pool password with filename `password` in the `/tmp` directory:
 ```
-docker run -it -v /tmp:/vol alahiff/htcondor-generate-password:latest
+/usr/bin/openssl rand -base64 32 > /tmp/password
 ```
 This will create a file `/tmp/password`. Create a secret from this new pool password:
 ```
@@ -21,17 +21,15 @@ Once the central manager is running, i.e.
 NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 htcondor-central-manager   1         1         1            1           17h
 ```
-deploy the schedd and worker node:
+deploy the worker node:
 ```
-kubectl create -f htcondor-schedd-deployment.yaml
 kubectl create -f htcondor-worker-deployment.yaml
 ```
-After a little while you should see 3 running pods:
+After a little while you should see 2 running pods:
 ```
 # kubectl get pods
 NAME                                        READY     STATUS    RESTARTS   AGE
 htcondor-central-manager-2538661822-1q8pl   1/1       Running   0          17h
-htcondor-schedd-308862252-r6xkj             1/1       Running   0          16h
 htcondor-worker-123133369-tdb70             1/1       Running   0          16h
 ```
 ## Next steps

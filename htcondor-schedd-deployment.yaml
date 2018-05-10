@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: htcondor-schedd
-        image: alahiff/htcondor-schedd:latest
+        image: rocks-78.local:5443/condor-schedd:latest 
         resources:
           requests:
             memory: "1.0Gi"

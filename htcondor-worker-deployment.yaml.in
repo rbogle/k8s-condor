@@ -2,18 +2,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: htcondor-central-manager
-  name: htcondor-central-manager
+    app: htcondor-worker
+  name: htcondor-worker
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: htcondor-central-manager
+        app: htcondor-worker
     spec:
       containers:
-      - name: htcondor-central-manager
-        image: alahiff/htcondor-central-manager:latest
+      - name: htcondor-worker
+        image: @REGISTRY@/condor-worker:latest
         resources:
           requests:
             memory: "1.0Gi"

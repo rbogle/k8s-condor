@@ -2,18 +2,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: htcondor-worker
-  name: htcondor-worker
+    app: htcondor-central-manager
+  name: htcondor-central-manager
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: htcondor-worker
+        app: htcondor-central-manager
     spec:
       containers:
-      - name: htcondor-worker
-        image: alahiff/htcondor-worker:latest
+      - name: htcondor-central-manager
+        image: @REGISTRY@/condor-central-manager:latest
         resources:
           requests:
             memory: "1.0Gi"
@@ -29,6 +29,8 @@ spec:
         volumeMounts:
           - name: pool-password
             mountPath: /etc/condor/pool_password
+          - name: rocks-home 
+            mountPath: /home
         ports:
         - containerPort: 9618
           protocol: TCP
@@ -37,3 +39,8 @@ spec:
         secret:
           defaultMode: 0600
           secretName: htcondor-pool-password
+      - name: rocks-home 
+        nfs:
+           # FIXME: use the right IP
+           server: @NFS_SERVER@
+           path: "/export/home"
